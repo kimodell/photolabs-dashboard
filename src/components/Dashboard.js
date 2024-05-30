@@ -34,6 +34,22 @@ class Dashboard extends Component {
     focused: null
   };
 
+  //check if there is a svaved focus state when rendering app initally
+  componentDidMount() {
+    const focused = JSON.parse(localStorage.getItem("focused"));
+    
+    if (focused) {
+      this.setState({ focused });
+    }
+  }
+  
+  //method to listen for changes to state
+  componentDidUpdate(previousProps, previousState) {
+    if (previousState.focused !== this.state.focused) {
+      localStorage.setItem("focused", JSON.stringify(this.state.focused));
+    }
+  }
+  
   //function to set state of focused. If previous state is not null, return state to null, else expand panel for selected id
   selectPanel(id) {
     this.setState(previousState => ({
